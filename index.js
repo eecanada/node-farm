@@ -15,6 +15,12 @@ const server = http.createServer((req, res)=>{
   }
   else if(pathName === '/product'){
     res.end('This is the PRODUCT')
+  } else {
+    // header always needs to be set before the response  
+    res.writeHead(404, {
+      'Content-type':'text/html' 
+    })
+    res.end('<h1>Page not found</h1>')
   }
 })
 // a sub address on host, '127.0.0.1' === local host, listening to income request on port 8000, the request is url localhost:8000
