@@ -1,4 +1,4 @@
-// fs is a node module
+// fs is a node module, for reading and writing data
 const fs = require('fs')
 // http module used to build server
 const http = require('http')
@@ -27,6 +27,7 @@ const server = http.createServer((req, res)=>{
   // Overview page
   if(pathName === '/' || pathName === '/overview'){
     res.writeHead(200, { 'Content-type': 'text/html'})
+    data
     res.end(tempOverview)
   }
 
