@@ -11,9 +11,14 @@ const server = http.createServer((req,res)=>{
   console.log(req.url)
   const pathName = req.url
   if(pathName === '/overview' || pathName === '/'){
-    res.end('this is the overview')
+    res.end('this is the overview') 
   } else if(pathName === '/product'){
     res.end('this is the product')
+  } else {
+    res.writeHead(404, { //piece of info of response I am sending back
+      'Content-type': 'text/html'
+    })
+    res.end('<h1> error page does not exist <h1>')
   }
   res.end('hello from the server')
 })
