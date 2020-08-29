@@ -18,7 +18,7 @@ fs.readFile('./txt/start.txt', 'utf-8', (err, data1)=>{
     fs.readFile(`./txt/append.txt`, 'utf-8', (err, data3)=>{
       const newFile = `${data2} ${data3}`
     fs.writeFile(`./txt/newFile.txt`, newFile, (err, data4)=>{
-      console.log('we made it!')
+      console.log('we made it')
     })
     })
   })
