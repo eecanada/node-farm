@@ -1,30 +1,30 @@
-//node js is built around modules 
-const fs = require('fs')
+// //node js is built around modules 
+// const fs = require('fs')
 
-// //readFileSync used to read file and takes in file location and character encoding 
-// const readInput = fs.readFileSync('./txt/input.txt', 'utf-8')
-// console.log(readInput)
+// // //readFileSync used to read file and takes in file location and character encoding 
+// // const readInput = fs.readFileSync('./txt/input.txt', 'utf-8')
+// // console.log(readInput)
 
-// //how to write a file
-// const text = 'I learn js, node, mongo, and react'
-// const writeText = fs.writeFileSync('./txt/randomTxt.txt', `${text}` )
-// console.log(writeText)
+// // //how to write a file
+// // const text = 'I learn js, node, mongo, and react'
+// // const writeText = fs.writeFileSync('./txt/randomTxt.txt', `${text}` )
+// // console.log(writeText)
 
 
-//Non-blocking Asynchronous way 
-fs.readFile('./txt/start.txt', 'utf-8', (err, data1)=>{
-  fs.readFile(`./txt/${data1}.txt`, 'utf-8', (err, data2)=>{
-    console.log(data2)
-    fs.readFile(`./txt/append.txt`, 'utf-8', (err, data3)=>{
-      const newFile = `${data2} ${data3}`
-    fs.writeFile(`./txt/newFile.txt`, newFile, (err, data4)=>{
-      console.log('we made it')
-    })
-    })
-  })
-}) 
+// //Non-blocking Asynchronous way 
+// fs.readFile('./txt/start.txt', 'utf-8', (err, data1)=>{
+//   fs.readFile(`./txt/${data1}.txt`, 'utf-8', (err, data2)=>{
+//     console.log(data2)
+//     fs.readFile(`./txt/append.txt`, 'utf-8', (err, data3)=>{
+//       const newFile = `${data2} ${data3}`
+//     fs.writeFile(`./txt/newFile.txt`, newFile, (err, data4)=>{
+//       console.log('we made it')
+//     })
+//     })
+//   })
+// }) 
 
-console.log('will read file')
+// console.log('will read file')
 
 
 // // fs is a node module, for reading and writing data
@@ -41,12 +41,12 @@ console.log('will read file')
 // const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
 //   //JSON.parse takes json code(string) and turns it into JS object
 // const dataObject = JSON.parse(data)
-//   // console.log(productData)
-//   // res.writeHead(200 , {
-//   //   //when I send json it needs to have this header
-//   //   'Content-type':'application/json'
-//   // })
-//   // res.end(data)
+//   console.log(productData)
+//   res.writeHead(200 , {
+//     //when I send json it needs to have this header
+//     'Content-type':'application/json'
+//   })
+//   res.end(data)
 
 // const server = http.createServer((req, res)=>{
 //   //sending response to client everytime a new request hits the server

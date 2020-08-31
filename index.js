@@ -14,13 +14,24 @@ const server = http.createServer((req,res)=>{
     res.end('this is the overview') 
   } else if(pathName === '/product'){
     res.end('this is the product')
+  } else if(pathName === '/api') {
+    fs.readFile(`${__dirname}/dev-data/data.json`, 'utf-8', (err, data)=>{
+      const productData = JSON.parse(data)
+      res.writeHead(200, {'Content-type': 'application/json'})
+      if (err){
+        console.log(err)
+      } else (
+        res.end(data)
+      )
+    })
+    
   } else {
-    res.writeHead(404, { //piece of info of response I am sending back
+    res.writeHead(404, { //piece of info of the response I am sending back
       'Content-type': 'text/html'
     })
     res.end('<h1> error page does not exist <h1>')
   }
-  res.end('hello from the server')
+  // res.end('hello from the server')
 })
 
 //listening to incoming request
