@@ -6,7 +6,11 @@ const url = require('url')
 
 //////////////////////////////////SERVER/////////////////////////////////// 
 
-//creating server -  passed call back function that is executed each time a new request hits the server
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
+const productData = JSON.parse(data)
+
+
+//creating server -  passed call back function that is executed each time a new request hits the server, excuted each time there is a new request 
 const server = http.createServer((req,res)=>{
   console.log(req.url)
   const pathName = req.url
@@ -18,11 +22,7 @@ const server = http.createServer((req,res)=>{
     fs.readFile(`${__dirname}/dev-data/data.json`, 'utf-8', (err, data)=>{
       const productData = JSON.parse(data)
       res.writeHead(200, {'Content-type': 'application/json'})
-      if (err){
-        console.log(err)
-      } else (
-        res.end(data)
-      )
+      res.end(data)
     })
     
   } else {
