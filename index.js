@@ -55,6 +55,7 @@ const dataObj = JSON.parse(data);
 //creating server -  passed call back function that is executed each time a new request hits the server, excuted each time there is a new request 
 const server = http.createServer((req,res)=>{
   console.log(req.url)
+  console.log(url.parse(req.url, true))
 
   //OVERVIEW PAGE
   const pathname = req.url
