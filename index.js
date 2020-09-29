@@ -1,7 +1,7 @@
 //allows me to read files
 const fs = require('fs')
 //allows me to build server
-const http = require('http')
+const http = require('http') 
 const url = require('url')
 
 //////////////////////////////////SERVER/////////////////////////////////// 
@@ -15,19 +15,18 @@ const replaceTemplate = (temp,product)=>{
   output = output.replace(/{%QUANTITY%}/g, product.quantity)
   output = output.replace(/{%DESCRIPTION%}/g, product.description)
   output = output.replace(/{%ID%}/g, product.id)
-  
+   
   if(!product.organic) {
     output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
 }
-
-//if missing, non-organic product will not show up
+//if missing, non-organic products  will not show up
 else {
-    output = output.replace(/{%NOT_ORGANIC%}/g, '');
+    output = output.replace(/{%NOT_ORGANIC%}/g, ''); 
 }
     return output
   
 }
-
+ 
 //reading templates
 const tempOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
@@ -47,18 +46,19 @@ const tempProduct = fs.readFileSync(
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 // parse json string data to JS object
 const dataObj = JSON.parse(data);
+console.log(dataObj, 'hit')
 
 
  
-
+ 
 
 //creating server -  passed call back function that is executed each time a new request hits the server, excuted each time there is a new request 
 const server = http.createServer((req,res)=>{
-  console.log(req.url)
-  console.log(url.parse(req.url, true))
+  
+  const {query, pathname} = url.parse(req.url, true)
+  
 
   //OVERVIEW PAGE
-  const pathname = req.url
   if (pathname === '/' || pathname === '/overview') {
     res.writeHead(200, {
       'Content-type': 'text/html'
@@ -68,25 +68,27 @@ const server = http.createServer((req,res)=>{
     const output = tempOverview.replace('{%PRODUCT_CARDS%}', cardsHtml);
     res.end(output);
  
+//PRODUCT PAGE  
+} else if (pathname === '/product'){
+  res.writeHead(200, {'Content-type':'text/html'})
+  const product = dataObj[query.id]
+  const output = replaceTemplate(tempProduct, product)
 
-  //PRODUCT PAGE 
-  } else if(pathName === '/product'){
-    res.end('this is the product')
+  res.end(output)
 
-  //API 
-  } else if(pathName === '/api') {
+}//API 
+  else if(pathname === '/api') {
       res.writeHead(200, {'Content-type': 'application/json'})
       res.end(data)
 
 
   //NOT FOUND   
-  } else {
+  } else { 
     res.writeHead(404, { //piece of info of the response I am sending back
       'Content-type': 'text/html'
     })
     res.end('<h1> error page does not exist <h1>')
-  }
-  // res.end('hello from the server')
+  } 
 })
 
 //listening to incoming request
