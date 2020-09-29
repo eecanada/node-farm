@@ -4,29 +4,10 @@ const fs = require('fs')
 const http = require('http') 
 const url = require('url')
 
+const replaceTemplate = require('./modules/replaceTemplate')
+
 //////////////////////////////////SERVER/////////////////////////////////// 
 
-const replaceTemplate = (temp,product)=>{
-  let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName)
-  output = output.replace(/{%IMAGE%}/g, product.image)
-  output = output.replace(/{%PRICE%}/g, product.price)
-  output = output.replace(/{%FROM%}/g, product.from)
-  output = output.replace(/{%NUTRIENTS%}/g, product.nutrients)
-  output = output.replace(/{%QUANTITY%}/g, product.quantity)
-  output = output.replace(/{%DESCRIPTION%}/g, product.description)
-  output = output.replace(/{%ID%}/g, product.id)
-   
-  if(!product.organic) {
-    output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
-}
-//if missing, non-organic products  will not show up
-else {
-    output = output.replace(/{%NOT_ORGANIC%}/g, ''); 
-}
-    return output
-  
-}
- 
 //reading templates
 const tempOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
@@ -49,9 +30,6 @@ const dataObj = JSON.parse(data);
 console.log(dataObj, 'hit')
 
 
- 
- 
-
 //creating server -  passed call back function that is executed each time a new request hits the server, excuted each time there is a new request 
 const server = http.createServer((req,res)=>{
   
@@ -71,9 +49,9 @@ const server = http.createServer((req,res)=>{
 //PRODUCT PAGE  
 } else if (pathname === '/product'){
   res.writeHead(200, {'Content-type':'text/html'})
-  const product = dataObj[query.id]
+  const product = dataObj[query.id] // this is targeting the whole array 0-4
+  console.log(`${product}:hit`)
   const output = replaceTemplate(tempProduct, product)
-
   res.end(output)
 
 }//API 
@@ -81,8 +59,7 @@ const server = http.createServer((req,res)=>{
       res.writeHead(200, {'Content-type': 'application/json'})
       res.end(data)
 
-
-  //NOT FOUND   
+//NOT FOUND   
   } else { 
     res.writeHead(404, { //piece of info of the response I am sending back
       'Content-type': 'text/html'
