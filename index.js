@@ -4,10 +4,11 @@ const fs = require('fs')
 const http = require('http') 
 const url = require('url')
 
+const slugify = require('slugify')
+
 const replaceTemplate = require('./modules/replaceTemplate')
 
-//////////////////////////////////SERVER/////////////////////////////////// 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //reading templates
 const tempOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
@@ -29,6 +30,12 @@ const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
 console.log(dataObj, 'hit')
 
+const slugs = dataObj.map(el => slugify(el.productName, {lower:true}))
+console.log(slugs)
+
+
+ 
+/////////////////////////////////////////////////////SERVER//////////////////////////////////////////////////// 
 
 //creating server -  passed call back function that is executed each time a new request hits the server, excuted each time there is a new request 
 const server = http.createServer((req,res)=>{
@@ -49,6 +56,7 @@ const server = http.createServer((req,res)=>{
 //PRODUCT PAGE  
 } else if (pathname === '/product'){
   res.writeHead(200, {'Content-type':'text/html'})
+  
   const product = dataObj[query.id] // this is targeting the whole array 0-4
   console.log(`${product}:hit`)
   const output = replaceTemplate(tempProduct, product)
